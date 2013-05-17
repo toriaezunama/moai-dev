@@ -25,6 +25,12 @@ void AKUFinalizeSim () {
 }
 
 //----------------------------------------------------------------//
+void AKUEnqueueJoystickEvent ( int deviceID, int sensorID, float x, float y ) {
+	
+	MOAIInputMgr::Get ().EnqueueJoystickEvent (( u8 )deviceID, ( u8 )sensorID, x, y );
+}
+
+//----------------------------------------------------------------//
 void AKUEnqueueButtonEvent ( int deviceID, int sensorID, bool down ) {
 
 	MOAIInputMgr::Get ().EnqueueButtonEvent (( u8 )deviceID, ( u8 )sensorID, down );
@@ -291,6 +297,11 @@ void AKUSetInputDevice ( int deviceID, char const* name ) {
 void AKUSetInputDeviceActive ( int deviceID, bool active ) {
 
 	MOAIInputMgr::Get ().SetDeviceActive (( u8 )deviceID, active );
+}
+
+//----------------------------------------------------------------//
+void AKUSetInputDeviceJoystick( int deviceID, int sensorID, char const* name ) {
+	MOAIInputMgr::Get ().SetSensor (( u8 )deviceID, ( u8 )sensorID, name, MOAISensor::JOYSTICK );
 }
 
 //----------------------------------------------------------------//

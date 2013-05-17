@@ -33,6 +33,7 @@ public:
 	DECL_LUA_SINGLETON ( MOAIInputMgr )
 
 	//----------------------------------------------------------------//
+	void				EnqueueJoystickEvent		( u8 deviceID, u8 sensorID, float x, float y );
 	void				EnqueueButtonEvent			( u8 deviceID, u8 sensorID, bool down );
 	void				EnqueueCompassEvent			( u8 deviceID, u8 sensorID, float heading );
 	void				EnqueueKeyboardEvent		( u8 deviceID, u8 sensorID, u32 keyID, bool down );

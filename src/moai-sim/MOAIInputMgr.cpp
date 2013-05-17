@@ -34,6 +34,15 @@ bool MOAIInputMgr::CheckSensor ( u8 deviceID, u8 sensorID, u32 type ) {
 }
 
 //----------------------------------------------------------------//
+void MOAIInputMgr::EnqueueJoystickEvent ( u8 deviceID, u8 sensorID, float x, float y ) {
+	
+	if ( this->CheckSensor ( deviceID, sensorID, MOAISensor::JOYSTICK)) {
+		this->WriteEventHeader ( deviceID, sensorID, MOAISensor::JOYSTICK );
+		MOAIJoystickSensor::WriteEvent ( this->mInput, x, y );
+	}
+}
+
+//----------------------------------------------------------------//
 void MOAIInputMgr::EnqueueButtonEvent ( u8 deviceID, u8 sensorID, bool down ) {
 
 	if ( this->CheckSensor ( deviceID, sensorID, MOAISensor::BUTTON )) {

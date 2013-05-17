@@ -1,0 +1,184 @@
+##########################################################################
+# Makefile for GLFW on Cocoa on Mac OS X using Apple GCC
+#-------------------------------------------------------------------------
+# To compile GLFW using this makefile, run:
+#  make -f Makefile.cocoa
+##########################################################################
+
+##########################################################################
+# Installation prefix (default to /usr/local)
+##########################################################################
+PREFIX ?= /usr/local
+
+
+##########################################################################
+# Default: Build GLFW static and shared library
+##########################################################################
+all: libglfw.a libglfw.dylib
+
+
+##########################################################################
+# Compiler settings
+##########################################################################
+#CC     = gcc
+CC     = clang
+#CFLAGS ?= -O2 -g 
+#CFLAGS += -march=native
+#CPPFLAGS = -x c++
+#OBJCFLAGS = -x objective-c++
+SHARED_FLAGS = -arch i386  -g -Wall -O0 -c -I. -I.. -Wall -fno-common
+CPPFLAGS += $(SHARED_FLAGS)
+OBJCFLAGS += $(SHARED_FLAGS)
+
+##########################################################################
+# Library builder settings
+##########################################################################
+AR          = ar
+SED         = sed
+INSTALL     = install
+ARFLAGS     = -rcs
+RANLIB      = ranlib
+DYLIBFLAGS  = -framework Cocoa -framework OpenGL -framework IOKit \
+              -dynamiclib -Wl,-single_module -compatibility_version 1 -arch i386\
+              -current_version 1 -install_name @executable_path/libglfw.dylib
+HEADERS     = ../../include/GL/glfw.h ../internal.h platform.h
+
+
+##########################################################################
+# Install GLFW header and static library
+##########################################################################
+install: libglfw.a libglfw.pc
+	$(INSTALL) -d $(PREFIX)/lib
+	$(INSTALL) -c -m 644 libglfw.a $(PREFIX)/lib/libglfw.a
+	$(RANLIB) $(PREFIX)/lib/libglfw.a
+	$(INSTALL) -d $(PREFIX)/include/GL
+	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(PREFIX)/include/GL/glfw.h
+	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
+	$(INSTALL) -c -m 644 libglfw.pc $(PREFIX)/lib/pkgconfig/libglfw.pc
+
+
+##########################################################################
+# Install GLFW header and static and dynamic libraries
+##########################################################################
+dist-install: libglfw.dylib install
+	$(INSTALL) -c -m 644 libglfw.dylib $(PREFIX)/lib/libglfw.dylib
+
+
+##########################################################################
+# Object files for the GLFW library
+##########################################################################
+OBJS = \
+       enable.o \
+       fullscreen.o \
+       glext.o \
+       image.o \
+       init.o \
+       input.o \
+       joystick.o \
+       stream.o \
+       tga.o \
+       thread.o \
+       time.o \
+       window.o \
+       cocoa_enable.o \
+       cocoa_fullscreen.o \
+       cocoa_glext.o \
+       cocoa_init.o \
+       cocoa_joystick.o \
+       cocoa_thread.o \
+       cocoa_time.o \
+       cocoa_window.o
+
+
+##########################################################################
+# Rule for building libglfw.pc
+##########################################################################
+libglfw.pc: libglfw.pc.in
+	$(SED) -e 's,\@PREFIX\@,$(PREFIX),' libglfw.pc.in > libglfw.pc
+
+
+##########################################################################
+# Rule for building static library
+##########################################################################
+libglfw.a: $(OBJS)
+	$(AR) $(ARFLAGS) $@ $(OBJS)
+	$(RANLIB) $@
+
+
+##########################################################################
+# Rule for building shared library
+##########################################################################
+libglfw.dylib: $(OBJS)
+	$(CC) -o $@ $(DYLIBFLAGS) $(OBJS)
+
+
+##########################################################################
+# Rule for cleaning up generated files
+##########################################################################
+clean:
+	rm -f $(OBJS) libglfw.a libglfw.dylib libglfw.pc
+
+
+##########################################################################
+# Rules for building library object files
+##########################################################################
+enable.o: ../enable.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../enable.c
+
+fullscreen.o: ../fullscreen.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../fullscreen.c
+
+glext.o: ../glext.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../glext.c
+
+image.o: ../image.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../image.c
+
+init.o: ../init.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../init.c
+
+input.o: ../input.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../input.c
+
+joystick.o: ../joystick.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../joystick.c
+
+stream.o: ../stream.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../stream.c
+
+tga.o: ../tga.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../tga.c
+
+thread.o: ../thread.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../thread.c
+
+time.o: ../time.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../time.c
+
+window.o: ../window.c $(HEADERS)
+	$(CC) $(CPPFLAGS) -o $@ ../window.c
+
+cocoa_enable.o: cocoa_enable.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_enable.m
+
+cocoa_fullscreen.o: cocoa_fullscreen.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_fullscreen.m
+
+cocoa_glext.o: cocoa_glext.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_glext.m
+
+cocoa_init.o: cocoa_init.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_init.m
+
+cocoa_joystick.o: cocoa_joystick.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_joystick.m
+
+cocoa_thread.o: cocoa_thread.c $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_thread.c
+
+cocoa_time.o: cocoa_time.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_time.m
+
+cocoa_window.o: cocoa_window.m $(HEADERS)
+	$(CC) $(OBJCFLAGS) -o $@ cocoa_window.m
+
