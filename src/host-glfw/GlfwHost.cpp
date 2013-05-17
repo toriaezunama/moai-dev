@@ -537,6 +537,12 @@ void joystickButtonCallback( int joyId, int buttonId, int state ){
 	}
 }
 
+void joystickConnectionCallback( int joyId, bool connected );
+void joystickConnectionCallback( int joyId, bool connected ){
+	fprintf( stdout, "JOYSTICK0: %s", (connected ? "connected" : "disconnected") );
+	AKUSetInputDeviceActive( GlfwInputDeviceID::JOYSTICK0, connected );
+}
+
 //----------------------------------------------------------------//
 int GlfwHost ( int argc, char** argv ) {
 	
@@ -564,6 +570,7 @@ int GlfwHost ( int argc, char** argv ) {
 	jm.init();
 	jm.setAxisCallback( joystickAxisCallback );
 	jm.setButtonCallback( joystickButtonCallback );
+	jm.setConnectionCallback( joystickConnectionCallback );
 	jm.dump();
 	
 	char* lastScript = NULL;

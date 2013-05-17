@@ -8,6 +8,7 @@ class JoystickManager;
 
 typedef void (*JoystickAxisCallback)( int joystickId, int stickId, float x, float y );
 typedef void (*JoystickButtonCallback)( int joystickId, int buttonId, int state );
+typedef void (*JoystickConnectionCallback)( int joystickId, bool connected );
 
 class Joystick {
 	bool mIsConnected;
@@ -22,7 +23,7 @@ public:
 	Joystick( int id, int axesCnt, int buttonCnt );
 	~Joystick();
 
-	void update( JoystickAxisCallback axisCallback, JoystickButtonCallback buttonCallback ); 
+	void update( JoystickAxisCallback axisCallback, JoystickButtonCallback buttonCallback );
 	void dump();
 
 
@@ -37,6 +38,7 @@ class JoystickManager {
 	
 	JoystickAxisCallback mAxesCallback;
 	JoystickButtonCallback mButtonCallback;
+	JoystickConnectionCallback mConnectionCallback;
 
 public:
 	JoystickManager() {};
@@ -47,6 +49,7 @@ public:
 	void dump();
 	void setAxisCallback( JoystickAxisCallback );
 	void setButtonCallback( JoystickButtonCallback );
+	void setConnectionCallback( JoystickConnectionCallback );
 
 private:
 	inline bool isJoystickConnected( int joystickNo ) {

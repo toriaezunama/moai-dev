@@ -84,16 +84,24 @@ void JoystickManager::init() {
 	for( int i = 0; i < MAX_JOYSTICKS; i++ ) {
 		int id = GLFW_JOYSTICK_1 + i;
 		int axes = glfwGetJoystickParam( id, GLFW_AXES );
-	   int buttons = glfwGetJoystickParam( id, GLFW_BUTTONS );
+	    int buttons = glfwGetJoystickParam( id, GLFW_BUTTONS );
 		Joystick* newJS = new Joystick( id, axes, buttons );
 		mJoysticks[ i ] = newJS;
-		newJS->mIsConnected = isJoystickConnected( id );
 	}
 }
 
 void JoystickManager::update() {
 	for( int i = 0; i < MAX_JOYSTICKS; i++ ) {
 		Joystick* j = mJoysticks[ i ];
+		bool connected = isJoystickConnected( j->mId );
+		
+		// Connection state has changed
+		if( j->mIsConnected != connected )
+			if( mConnectionCallback )
+				mConnectionCallback( j->mId, connected );
+
+		j->mIsConnected = connected;
+		
 		if( j->mIsConnected )
 			j->update( mAxesCallback, mButtonCallback );
 	}	
@@ -112,6 +120,10 @@ void JoystickManager::setAxisCallback( JoystickAxisCallback callback ) {
 
 void JoystickManager::setButtonCallback( JoystickButtonCallback callback ) {
 	mButtonCallback = callback;
+}
+
+void JoystickManager::setConnectionCallback( JoystickConnectionCallback callback ) {
+	mConnectionCallback = callback;
 }
 
 JoystickManager::~JoystickManager() {
