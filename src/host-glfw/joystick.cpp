@@ -38,23 +38,14 @@ void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback
 		float x = mAxes[ i ];
 		float y = mAxes[ i + 1 ];
 		
-		// Left Shoulder button 1(off) -> -1(full)
+		// Left/right Shoulder triggers 1(off) -> -1(full)
 		if( i == 4 ) {
-//			if( v > -1 ) {
-//				// Map to range 0 - 1
-//				v = (v + 1) / 2;
-//				// TODO: axisCallback( mId, i, v );
-//			}
+			// Map to range 0 - 1
+			x = (x + 1) / 2;
+			y = (y + 1) / 2;
+			axisCallback( mId, 2, x, y );
 		}
-		// Left Shoulder button 1(off) -> -1(full)
-		else if( i == 5 ) {
-//			// Map to range 0 - 1
-//			if( v < 1 ) {
-//				v = 1 - ((v + 1) / 2);
-//				// TODO: axisCallback( mId, i, v );
-//			}
-		}
-		// Sticks		
+		// Sticks
 		else {
 			float deadZone = 0.2;
 			bool isX = (x < -deadZone) || (x > deadZone);
