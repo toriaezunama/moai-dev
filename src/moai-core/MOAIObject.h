@@ -4,7 +4,10 @@
 #ifndef MOAIOBJECT_H
 #define MOAIOBJECT_H
 
+#include <zl-common/zl_types.h>
+#include <zl-util/ZLLeanArray.h>
 #include <moai-core/MOAIRtti.h>
+
 
 class MOAICanary;
 

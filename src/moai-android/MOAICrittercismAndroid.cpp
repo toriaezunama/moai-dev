@@ -7,8 +7,8 @@
 
 #include <jni.h>
 
-#include <moaiext-android/moaiext-jni.h>
-#include <moaiext-android/MOAICrittercismAndroid.h>
+#include <moai-android/moaiext-jni.h>
+#include <moai-android/MOAICrittercismAndroid.h>
 
 extern JavaVM* jvm;
 
@@ -36,13 +36,13 @@ int MOAICrittercismAndroid::_init ( lua_State* L ) {
 	jclass crittercism = env->FindClass ( "com/ziplinegames/moai/MoaiCrittercism" );
     if ( crittercism == NULL ) {
 
-		USLog::Print ( "MOAICrittercismAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiCrittercism" );
+		ZLLog::Print ( "MOAICrittercismAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiCrittercism" );
     } else {
 
     	jmethodID init = env->GetStaticMethodID ( crittercism, "init", "(Ljava/lang/String;)V" );
     	if ( init == NULL ) {
 
-			USLog::Print ( "MOAICrittercismAndroid: Unable to find static java method %s", "init" );
+			ZLLog::Print ( "MOAICrittercismAndroid: Unable to find static java method %s", "init" );
     	} else {
 
 			env->CallStaticVoidMethod ( crittercism, init, jidentifier );				
@@ -72,13 +72,13 @@ int MOAICrittercismAndroid::_leaveBreadcrumb ( lua_State* L ) {
 	jclass crittercism = env->FindClass ( "com/ziplinegames/moai/MoaiCrittercism" );
     if ( crittercism == NULL ) {
 
-		USLog::Print ( "MOAICrittercismAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiCrittercism" );
+		ZLLog::Print ( "MOAICrittercismAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiCrittercism" );
     } else {
 
     	jmethodID leaveBreadcrumb = env->GetStaticMethodID ( crittercism, "leaveBreadcrumb", "(Ljava/lang/String;)V" );
     	if ( leaveBreadcrumb == NULL ) {
 
-			USLog::Print ( "MOAICrittercismAndroid: Unable to find static java method %s", "leaveBreadcrumb" );
+			ZLLog::Print ( "MOAICrittercismAndroid: Unable to find static java method %s", "leaveBreadcrumb" );
     	} else {
 
 			env->CallStaticVoidMethod ( crittercism, leaveBreadcrumb, jbreadcrumb );				
@@ -108,13 +108,13 @@ int MOAICrittercismAndroid::_setUser ( lua_State* L ) {
 	jclass crittercism = env->FindClass ( "com/ziplinegames/moai/MoaiCrittercism" );
     if ( crittercism == NULL ) {
 
-		USLog::Print ( "MOAICrittercismAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiCrittercism" );
+		ZLLog::Print ( "MOAICrittercismAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiCrittercism" );
     } else {
 
     	jmethodID setUser = env->GetStaticMethodID ( crittercism, "setUser", "(Ljava/lang/String;)V" );
     	if ( setUser == NULL ) {
 
-			USLog::Print ( "MOAICrittercismAndroid: Unable to find static java method %s", "setUser" );
+			ZLLog::Print ( "MOAICrittercismAndroid: Unable to find static java method %s", "setUser" );
     	} else {
 
 			env->CallStaticVoidMethod ( crittercism, setUser, jident );				

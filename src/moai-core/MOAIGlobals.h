@@ -5,6 +5,7 @@
 #define	MOAIGLOBALS_H
 
 #include <moai-core/MOAIObject.h>
+#include <zl-util/headers.h>
 
 //================================================================//
 // MOAIGlobalIDBase

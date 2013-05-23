@@ -6,7 +6,8 @@
 
 #ifndef DISABLE_BILLING
 
-#include <moaicore/moaicore.h>
+#include <moai-core/host.h>
+#include <moai-core/headers.h>
 
 //================================================================//
 // MOAIBillingAndroid

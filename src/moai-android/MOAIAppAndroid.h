@@ -4,7 +4,15 @@
 #ifndef	MOAIAPPANDROID_H
 #define	MOAIAPPANDROID_H
 
-#include <moaicore/moaicore.h>
+#include <moai_config.h>
+#include <lua.h>
+#include <lua-headers/moai_lua.h>
+#include <moai-core/host.h>
+#include <moai-core/headers.h>
+#include <moai-sim/host.h>
+#include <moai-sim/MOAIEnvironment.h>
+#include <zl-common/zl_types.h>
+
 
 //================================================================//
 // MOAIAppAndroid

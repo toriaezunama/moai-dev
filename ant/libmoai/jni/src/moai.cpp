@@ -7,7 +7,7 @@
 #include <math.h>
 #include <string.h>
 
-#include <moaicore/moaicore.h>
+#include <moai-core/host.h>
 
 #include <lua-headers/moai_lua.h>
 
@@ -556,7 +556,8 @@
 
 		JNI_GET_CSTRING ( jpath, path );
 
-		USFileSys::SetCurrentPath ( path );
+		AKUSetWorkingDirectory( path );
+		//USFileSys::SetCurrentPath ( path );
 		MOAILuaRuntime::Get ().SetPath ( path );
 	
 		JNI_RELEASE_CSTRING ( jpath, path );

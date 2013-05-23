@@ -7,8 +7,8 @@
 
 #include <jni.h>
 
-#include <moaiext-android/moaiext-jni.h>
-#include <moaiext-android/MOAIChartBoostAndroid.h>
+#include <moai-android/moaiext-jni.h>
+#include <moai-android/MOAIChartBoostAndroid.h>
 
 extern JavaVM* jvm;
 
@@ -39,13 +39,13 @@ int MOAIChartBoostAndroid::_init ( lua_State* L ) {
 	jclass chartboost = env->FindClass ( "com/ziplinegames/moai/MoaiChartBoost" );
     if ( chartboost == NULL ) {
 
-		USLog::Print ( "MOAIChartBoostAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiChartBoost" );
+		ZLLog::Print ( "MOAIChartBoostAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiChartBoost" );
     } else {
 
     	jmethodID init = env->GetStaticMethodID ( chartboost, "init", "(Ljava/lang/String;Ljava/lang/String;)V" );
     	if ( init == NULL ) {
 
-			USLog::Print ( "MOAIChartBoostAndroid: Unable to find static java method %s", "init" );
+			ZLLog::Print ( "MOAIChartBoostAndroid: Unable to find static java method %s", "init" );
     	} else {
 
 			env->CallStaticVoidMethod ( chartboost, init, jidentifier, jsignature );				
@@ -75,13 +75,13 @@ int MOAIChartBoostAndroid::_loadInterstitial ( lua_State* L ) {
 	jclass chartboost = env->FindClass ( "com/ziplinegames/moai/MoaiChartBoost" );
     if ( chartboost == NULL ) {
 
-		USLog::Print ( "MOAIChartBoostAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiChartBoost" );
+		ZLLog::Print ( "MOAIChartBoostAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiChartBoost" );
     } else {
 
     	jmethodID loadInterstitial = env->GetStaticMethodID ( chartboost, "loadInterstitial", "(Ljava/lang/String;)V" );
     	if ( loadInterstitial == NULL ) {
 
-			USLog::Print ( "MOAIChartBoostAndroid: Unable to find static java method %s", "loadInterstitial" );
+			ZLLog::Print ( "MOAIChartBoostAndroid: Unable to find static java method %s", "loadInterstitial" );
     	} else {
 
 			env->CallStaticVoidMethod ( chartboost, loadInterstitial, jlocation );			
@@ -126,13 +126,13 @@ int MOAIChartBoostAndroid::_showInterstitial ( lua_State* L ) {
 	jclass chartboost = env->FindClass ( "com/ziplinegames/moai/MoaiChartBoost" );
     if ( chartboost == NULL ) {
 
-		USLog::Print ( "MOAIChartBoostAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiChartBoost" );
+		ZLLog::Print ( "MOAIChartBoostAndroid: Unable to find java class %s", "com/ziplinegames/moai/MoaiChartBoost" );
     } else {
 
     	jmethodID showInterstitial = env->GetStaticMethodID ( chartboost, "showInterstitial", "(Ljava/lang/String;)V" );
     	if ( showInterstitial == NULL ) {
 
-			USLog::Print ( "MOAIChartBoostAndroid: Unable to find static java method %s", "showInterstitial" );
+			ZLLog::Print ( "MOAIChartBoostAndroid: Unable to find static java method %s", "showInterstitial" );
     	} else {
 
 			env->CallStaticVoidMethod ( chartboost, showInterstitial, jlocation );				

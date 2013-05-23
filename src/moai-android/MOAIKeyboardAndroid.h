@@ -11,7 +11,8 @@
 #ifndef MOAIKEYBOARDANDROID_H
 #define MOAIKEYBOARDANDROID_H
 
-#import <moaicore/moaicore.h>
+#import <moai-core/host.h>
+#include <moai-core/headers.h>
 
 //================================================================//
 // MOAIKeyboardAndroid

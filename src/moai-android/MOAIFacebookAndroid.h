@@ -6,7 +6,8 @@
 
 #ifndef DISABLE_FACEBOOK
 
-#include <moaicore/moaicore.h>
+#include <moai-core/host.h>
+#include <moai-core/headers.h>
 
 //================================================================//
 // MOAIFacebookAndroid

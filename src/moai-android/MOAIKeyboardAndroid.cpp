@@ -11,9 +11,9 @@
 #include "pch.h"
 
 #include <jni.h>
-#include <moaicore/moaicore.h>
-#include <moaiext-android/moaiext-jni.h>
-#include <moaiext-android/MOAIKeyboardAndroid.h>
+#include <moai-core/host.h>
+#include <moai-android/moaiext-jni.h>
+#include <moai-android/MOAIKeyboardAndroid.h>
 
 extern JavaVM* jvm;
 
