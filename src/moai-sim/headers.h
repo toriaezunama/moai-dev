@@ -27,6 +27,7 @@
 #include <moai-sim/MOAIDebugLines.h>
 #include <moai-sim/MOAIDeck.h>
 #include <moai-sim/MOAIDeckRemapper.h>
+#include <moai-sim/MOAIDPadSensor.h>
 #include <moai-sim/MOAIDraw.h>
 #include <moai-sim/MOAIEnvironment.h>
 #include <moai-sim/MOAIEaseDriver.h>
@@ -106,6 +107,7 @@
 #include <moai-sim/MOAITouchSensor.h>
 #include <moai-sim/MOAITransform.h>
 #include <moai-sim/MOAITransformBase.h>
+#include <moai-sim/MOAITriggerSensor.h>
 #include <moai-sim/MOAIVertexBuffer.h>
 #include <moai-sim/MOAIVertexFormat.h>
 #include <moai-sim/MOAIVertexFormatMgr.h>

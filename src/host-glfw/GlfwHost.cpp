@@ -109,18 +109,16 @@ namespace GlfwInputDeviceSensorID {
 
 namespace GlfwJoystickSensorID {
 	enum {
-		JOYSTICK_ANALOG_LEFT,
-		JOYSTICK_ANALOG_RIGHT,
-		JOYSTICK_ANALOG_SHOULDER,
+		JOYSTICK_STICK_LEFT,
+		JOYSTICK_STICK_RIGHT,
+		JOYSTICK_TRIGGER_LEFT,
+		JOYSTICK_TRIGGER_RIGHT,
 		
-		JOYSTICK_DPAD_DOWN,
-		JOYSTICK_DPAD_UP,
-		JOYSTICK_DPAD_LEFT,
-		JOYSTICK_DPAD_RIGHT,
+		JOYSTICK_DPAD,
 		JOYSTICK_START,
 		JOYSTICK_BACK,
-		JOYSTICK_ANALOG_LEFT_BUTTON,
-		JOYSTICK_ANALOG_RIGHT_BUTTON,
+		JOYSTICK_STICK_LEFT_BUTTON,
+		JOYSTICK_STICK_RIGHT_BUTTON,
 		JOYSTICK_SHOULDER_LEFT,
 		JOYSTICK_SHOULDER_RIGHT,
 		JOYSTICK_HOME,
@@ -486,16 +484,22 @@ void joystickAxisCallback( int joyId, int axisId, float lr, float ud ) {
 	
 	switch( axisId ) {
 		case 0: // Left stick (range -1 to +1)
-			AKUEnqueueJoystickEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_LEFT, lr, ud );
+			AKUEnqueueJoystickEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_LEFT, lr, ud );
 			break;
 		case 1: // Right stick (range -1 to +1)
-			AKUEnqueueJoystickEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_RIGHT, lr, ud );
+			AKUEnqueueJoystickEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_RIGHT, lr, ud );
 			break;
 		case 2: // Left/right (range 0 to 1)
-			AKUEnqueueJoystickEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_SHOULDER, lr, ud );
+			AKUEnqueueTriggerEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_TRIGGER_LEFT, lr );
+			AKUEnqueueTriggerEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_TRIGGER_RIGHT, ud );
 			break;
 	}
 	// JOYSTICK_ANALOG_RIGHT,
+}
+
+void joystickDPadCallback( int joyId, int buttonId, int state );
+void joystickDPadCallback( int joyId, int buttonId, int state ) {
+	AKUEnqueueDPadEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD, state );
 }
 
 void joystickButtonCallback( int joyId, int buttonId, int state );
@@ -503,18 +507,18 @@ void joystickButtonCallback( int joyId, int buttonId, int state ){
 	// printf( "Joystick[%d], Button[%d]: %c\n", joyId, buttonId, (state == GLFW_PRESS) ? '+' : '-' );
 	
 	switch( buttonId ) {
-		case 0: // DPAD UP
-			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_UP, state == GLFW_PRESS );
-			break;
-		case 1: // DPAD DOWN
-			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_DOWN, state == GLFW_PRESS );
-			break;
-		case 2: // DPAD LEFT
-			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_LEFT, state == GLFW_PRESS );
-			break;
-		case 3: // DPAD RIGHT
-			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_RIGHT, state == GLFW_PRESS );
-			break;
+//		case 0: // DPAD UP
+//			AKUEnqueueDPadEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD, state );
+//			break;
+//		case 1: // DPAD DOWN
+//			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_DOWN, state == GLFW_PRESS );
+//			break;
+//		case 2: // DPAD LEFT
+//			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_LEFT, state == GLFW_PRESS );
+//			break;
+//		case 3: // DPAD RIGHT
+//			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_RIGHT, state == GLFW_PRESS );
+//			break;
 		case 4: // Start button
 			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_START, state == GLFW_PRESS );
 			break;
@@ -522,10 +526,10 @@ void joystickButtonCallback( int joyId, int buttonId, int state ){
 			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BACK, state == GLFW_PRESS );
 			break;
 		case 6: // Left analog stick's button
-			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_LEFT_BUTTON, state == GLFW_PRESS );
+			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_LEFT_BUTTON, state == GLFW_PRESS );
 			break;
 		case 7: // Right analog stick's button
-			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_RIGHT_BUTTON, state == GLFW_PRESS );
+			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_RIGHT_BUTTON, state == GLFW_PRESS );
 			break;
 		case 8: // Left shoulder button
 			AKUEnqueueButtonEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_SHOULDER_LEFT, state == GLFW_PRESS );
@@ -583,6 +587,7 @@ int GlfwHost ( int argc, char** argv ) {
 	JoystickManager jm;
 	jm.init();
 	jm.setAxisCallback( joystickAxisCallback );
+	jm.setDPadCallback( joystickDPadCallback );
 	jm.setButtonCallback( joystickButtonCallback );
 	jm.setConnectionCallback( joystickConnectionCallback );
 	jm.dump();
@@ -786,36 +791,40 @@ void GlfwRefreshContext () {
 	// Joypad 0
 	AKUSetInputDevice				( GlfwInputDeviceID::JOYSTICK0, "joystick0" );
 	AKUReserveInputDeviceSensors	( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::TOTAL );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_UP,	"DPAD_UP" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_DOWN,	"DPAD_DOWN" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_LEFT,	"DPAD_LEFT" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD_RIGHT,	"DPAD_RIGHT" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_START,		"START" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BACK,		"BACK" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_LEFT_BUTTON, "ANALOG_LEFT_BTN" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_ANALOG_RIGHT_BUTTON, "ANALOG_RIGHT_BTN" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_SHOULDER_LEFT, "SHOULDER_LEFT" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_SHOULDER_RIGHT, "SHOULDER_RIGHT" );
-	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_HOME,		"HOME" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_START,	 "Start" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BACK,	 	 "Back" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_LEFT_BUTTON, "L3" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_RIGHT_BUTTON, "R3" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_SHOULDER_LEFT, "L1" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_SHOULDER_RIGHT, "R1" );
+	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_HOME,		"XBox" );
 	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BUTTON_A,	"A" );
 	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BUTTON_B,	"B" );
 	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BUTTON_X,	"X" );
 	AKUSetInputDeviceButton( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_BUTTON_Y,	"Y" );
+
+	AKUSetInputDeviceDPad( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_DPAD,	"DPad" );
 	
-	AKUSetInputDeviceJoystick(
+	AKUSetInputDeviceJoystick( // Left Stick
 							  GlfwInputDeviceID::JOYSTICK0,
-							  GlfwJoystickSensorID::JOYSTICK_ANALOG_LEFT,
-							  "ANALOG_LEFT"
+							  GlfwJoystickSensorID::JOYSTICK_STICK_LEFT,
+							  "LS"
 							  );
-	AKUSetInputDeviceJoystick(
+	AKUSetInputDeviceJoystick( // Right Stick
 							  GlfwInputDeviceID::JOYSTICK0,
-							  GlfwJoystickSensorID::JOYSTICK_ANALOG_RIGHT,
-							  "ANALOG_RIGHT"
+							  GlfwJoystickSensorID::JOYSTICK_STICK_RIGHT,
+							  "RS"
 							  );
-	AKUSetInputDeviceJoystick(
+	AKUSetInputDeviceTrigger( // Shoulder Trigger right
 							  GlfwInputDeviceID::JOYSTICK0,
-							  GlfwJoystickSensorID::JOYSTICK_ANALOG_SHOULDER,
-							  "ANALOG_SHOULDER"
+							  GlfwJoystickSensorID::JOYSTICK_TRIGGER_LEFT,
+							  "L2"
+							  );
+
+	AKUSetInputDeviceTrigger( // Shoulder Trigger left
+							  GlfwInputDeviceID::JOYSTICK0,
+							  GlfwJoystickSensorID::JOYSTICK_TRIGGER_RIGHT,
+							  "R2"
 							  );
 
 	// TODO

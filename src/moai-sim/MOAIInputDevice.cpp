@@ -5,12 +5,14 @@
 
 #include <moai-sim/MOAIButtonSensor.h>
 #include <moai-sim/MOAICompassSensor.h>
+#include <moai-sim/MOAIDPadSensor.h>
 #include <moai-sim/MOAIInputDevice.h>
 #include <moai-sim/MOAIJoystickSensor.h>
 #include <moai-sim/MOAIKeyboardSensor.h>
 #include <moai-sim/MOAILocationSensor.h>
 #include <moai-sim/MOAIMotionSensor.h>
 #include <moai-sim/MOAIPointerSensor.h>
+#include <moai-sim/MOAITriggerSensor.h>
 #include <moai-sim/MOAITouchSensor.h>
 #include <moai-sim/MOAISensor.h>
 #include <moai-sim/MOAIWheelSensor.h>
@@ -128,6 +130,14 @@ void MOAIInputDevice::SetSensor ( u8 sensorID, cc8* name, u32 type ) {
 		}
 		case MOAISensor::TOUCH: {
 			sensor = new MOAITouchSensor ();
+			break;
+		}
+		case MOAISensor::TRIGGER: {
+			sensor = new MOAITriggerSensor ();
+			break;
+		}
+		case MOAISensor::DPAD: {
+			sensor = new MOAITriggerSensor ();
 			break;
 		}
 	}

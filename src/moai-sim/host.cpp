@@ -103,6 +103,18 @@ void AKUEnqueueWheelEvent ( int deviceID, int sensorID, float value ) {
 }
 
 //----------------------------------------------------------------//
+void AKUEnqueueTriggerEvent ( int deviceID, int sensorID, float value ) {
+	
+	MOAIInputMgr::Get ().EnqueueTriggerEvent (( u8 )deviceID, ( u8 )sensorID, value );
+}
+
+//----------------------------------------------------------------//
+void AKUEnqueueDPadEvent ( int deviceID, int sensorID, int value ) {
+	
+	MOAIInputMgr::Get ().EnqueueDPadEvent (( u8 )deviceID, ( u8 )sensorID, value );
+}
+
+//----------------------------------------------------------------//
 double AKUGetSimStep () {
 
 	return MOAISim::Get ().GetStep ();
@@ -146,6 +158,7 @@ void AKUInitializeSim () {
 	REGISTER_LUA_CLASS ( MOAICoroutine )
 	REGISTER_LUA_CLASS ( MOAIDebugLines )
 	REGISTER_LUA_CLASS ( MOAIDeckRemapper )
+	REGISTER_LUA_CLASS ( MOAIDPadSensor )
 	REGISTER_LUA_CLASS ( MOAIDraw )
 	REGISTER_LUA_CLASS ( MOAIEnvironment )
 	REGISTER_LUA_CLASS ( MOAIEaseDriver )
@@ -201,6 +214,7 @@ void AKUInitializeSim () {
 	REGISTER_LUA_CLASS ( MOAITimer )
 	REGISTER_LUA_CLASS ( MOAITouchSensor )
 	REGISTER_LUA_CLASS ( MOAITransform )
+	REGISTER_LUA_CLASS ( MOAITriggerSensor )
 	REGISTER_LUA_CLASS ( MOAIVertexBuffer )
 	REGISTER_LUA_CLASS ( MOAIVertexFormat )
 	REGISTER_LUA_CLASS ( MOAIViewport )
@@ -306,6 +320,16 @@ void AKUSetInputDeviceActive ( int deviceID, bool active ) {
 //----------------------------------------------------------------//
 void AKUSetInputDeviceJoystick( int deviceID, int sensorID, char const* name ) {
 	MOAIInputMgr::Get ().SetSensor (( u8 )deviceID, ( u8 )sensorID, name, MOAISensor::JOYSTICK );
+}
+
+//----------------------------------------------------------------//
+void AKUSetInputDeviceTrigger( int deviceID, int sensorID, char const* name ) {
+	MOAIInputMgr::Get ().SetSensor (( u8 )deviceID, ( u8 )sensorID, name, MOAISensor::TRIGGER );
+}
+
+//----------------------------------------------------------------//
+void AKUSetInputDeviceDPad( int deviceID, int sensorID, char const* name ) {
+	MOAIInputMgr::Get ().SetSensor (( u8 )deviceID, ( u8 )sensorID, name, MOAISensor::DPAD );
 }
 
 //----------------------------------------------------------------//

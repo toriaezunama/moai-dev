@@ -58,10 +58,14 @@ AKU_API void			AKUSetInputDeviceLocation		( int deviceID, int sensorID, char con
 AKU_API void			AKUSetInputDevicePointer		( int deviceID, int sensorID, char const* name );
 AKU_API void			AKUSetInputDeviceTouch			( int deviceID, int sensorID, char const* name );
 AKU_API void			AKUSetInputDeviceWheel			( int deviceID, int sensorID, char const* name );
+AKU_API void			AKUSetInputDeviceTrigger		( int deviceID, int sensorID, char const* name );
+AKU_API void			AKUSetInputDeviceDPad			( int deviceID, int sensorID, char const* name );
 
 // input events api
 AKU_API void			AKUEnqueueJoystickEvent			( int deviceID, int sensorID, float x, float y );
 AKU_API void			AKUEnqueueButtonEvent			( int deviceID, int sensorID, bool down );
+AKU_API void			AKUEnqueueTriggerEvent			( int deviceID, int sensorID, float value );
+AKU_API void			AKUEnqueueDPadEvent				( int deviceID, int sensorID, int value );
 AKU_API void			AKUEnqueueCompassEvent			( int deviceID, int sensorID, float heading );
 AKU_API void			AKUEnqueueKeyboardAltEvent		( int deviceID, int sensorID, bool down );
 AKU_API void			AKUEnqueueKeyboardControlEvent	( int deviceID, int sensorID, bool down );

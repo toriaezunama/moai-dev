@@ -34,6 +34,8 @@ public:
 
 	//----------------------------------------------------------------//
 	void				EnqueueJoystickEvent		( u8 deviceID, u8 sensorID, float x, float y );
+	void				EnqueueDPadEvent			( u8 deviceID, u8 sensorID, u32 value );
+	void				EnqueueTriggerEvent		( u8 deviceID, u8 sensorID, float value );
 	void				EnqueueButtonEvent			( u8 deviceID, u8 sensorID, bool down );
 	void				EnqueueCompassEvent			( u8 deviceID, u8 sensorID, float heading );
 	void				EnqueueKeyboardEvent		( u8 deviceID, u8 sensorID, u32 keyID, bool down );

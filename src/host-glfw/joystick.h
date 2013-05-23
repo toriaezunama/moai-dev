@@ -8,6 +8,7 @@ class JoystickManager;
 
 typedef void (*JoystickAxisCallback)( int joystickId, int stickId, float x, float y );
 typedef void (*JoystickButtonCallback)( int joystickId, int buttonId, int state );
+typedef void (*JoystickDPadCallback)( int joystickId, int dpadId, int state );
 typedef void (*JoystickConnectionCallback)( int joystickId, bool connected );
 
 class Joystick {
@@ -16,14 +17,14 @@ class Joystick {
 	int mAxesCnt;
 	int mButtonCnt;
 	unsigned char* mButtons[2];
-	float* mAxes;
+	float* mAxes[2];
 	int mCurrentBuffer;
 
 public:
 	Joystick( int id, int axesCnt, int buttonCnt );
 	~Joystick();
 
-	void update( JoystickAxisCallback axisCallback, JoystickButtonCallback buttonCallback );
+	void update( JoystickAxisCallback axisCallback, JoystickButtonCallback buttonCallback, JoystickDPadCallback dpadCallback );
 	void dump();
 
 
@@ -38,6 +39,7 @@ class JoystickManager {
 	
 	JoystickAxisCallback mAxesCallback;
 	JoystickButtonCallback mButtonCallback;
+	JoystickDPadCallback mDPadCallback;
 	JoystickConnectionCallback mConnectionCallback;
 
 public:
@@ -49,6 +51,7 @@ public:
 	void dump();
 	void setAxisCallback( JoystickAxisCallback );
 	void setButtonCallback( JoystickButtonCallback );
+	void setDPadCallback( JoystickDPadCallback );
 	void setConnectionCallback( JoystickConnectionCallback );
 
 private:

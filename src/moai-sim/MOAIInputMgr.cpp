@@ -15,6 +15,8 @@
 #include <moai-sim/MOAISensor.h>
 #include <moai-sim/MOAITouchSensor.h>
 #include <moai-sim/MOAIWheelSensor.h>
+#include <moai-sim/MOAITriggerSensor.h>
+#include <moai-sim/MOAIDPadSensor.h>
 
 #define LUAVAR_CONFIGURATION	"configuration"
 
@@ -39,6 +41,24 @@ void MOAIInputMgr::EnqueueJoystickEvent ( u8 deviceID, u8 sensorID, float x, flo
 	if ( this->CheckSensor ( deviceID, sensorID, MOAISensor::JOYSTICK)) {
 		this->WriteEventHeader ( deviceID, sensorID, MOAISensor::JOYSTICK );
 		MOAIJoystickSensor::WriteEvent ( this->mInput, x, y );
+	}
+}
+
+//----------------------------------------------------------------//
+void MOAIInputMgr::EnqueueDPadEvent ( u8 deviceID, u8 sensorID, u32 value ) {
+	
+	if ( this->CheckSensor ( deviceID, sensorID, MOAISensor::DPAD)) {
+		this->WriteEventHeader ( deviceID, sensorID, MOAISensor::DPAD );
+		MOAIDPadSensor::WriteEvent ( this->mInput, value );
+	}
+}
+
+//----------------------------------------------------------------//
+void MOAIInputMgr::EnqueueTriggerEvent ( u8 deviceID, u8 sensorID, float value ) {
+	
+	if ( this->CheckSensor ( deviceID, sensorID, MOAISensor::TRIGGER)) {
+		this->WriteEventHeader ( deviceID, sensorID, MOAISensor::TRIGGER );
+		MOAITriggerSensor::WriteEvent ( this->mInput, value );
 	}
 }
 

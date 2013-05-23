@@ -955,6 +955,10 @@
 		07F11A7F15391291004EAA24 /* TJCConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F11A0715391291004EAA24 /* TJCConfig.h */; };
 		07F3902B1626446E00673C6F /* CBAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F390291626446E00673C6F /* CBAnalytics.h */; };
 		07F3902C1626446E00673C6F /* Chartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F3902A1626446E00673C6F /* Chartboost.h */; };
+		41EDA135174D4072008AA2E0 /* MOAITriggerSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41EDA133174D4071008AA2E0 /* MOAITriggerSensor.cpp */; };
+		41EDA136174D4072008AA2E0 /* MOAITriggerSensor.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EDA134174D4072008AA2E0 /* MOAITriggerSensor.h */; };
+		41EDA139174D408F008AA2E0 /* MOAIDPadSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41EDA137174D408F008AA2E0 /* MOAIDPadSensor.cpp */; };
+		41EDA13A174D408F008AA2E0 /* MOAIDPadSensor.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EDA138174D408F008AA2E0 /* MOAIDPadSensor.h */; };
 		660EBB04160D184A000B1203 /* Crittercism.h in Headers */ = {isa = PBXBuildFile; fileRef = 660EBB03160D184A000B1203 /* Crittercism.h */; };
 		660EBB05160D184A000B1203 /* Crittercism.h in Headers */ = {isa = PBXBuildFile; fileRef = 660EBB03160D184A000B1203 /* Crittercism.h */; };
 		660EBB22160D1859000B1203 /* CrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660EBB06160D1859000B1203 /* CrashReporter.h */; };
@@ -4393,6 +4397,10 @@
 		07F390291626446E00673C6F /* CBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBAnalytics.h; path = "../../3rdparty/chartboostiOS-3.0.7/CBAnalytics.h"; sourceTree = "<group>"; };
 		07F3902A1626446E00673C6F /* Chartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Chartboost.h; path = "../../3rdparty/chartboostiOS-3.0.7/Chartboost.h"; sourceTree = "<group>"; };
 		07F4C7B014FC440500FB78BA /* libmoai-ios-facebook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmoai-ios-facebook.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		41EDA133174D4071008AA2E0 /* MOAITriggerSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MOAITriggerSensor.cpp; sourceTree = "<group>"; };
+		41EDA134174D4072008AA2E0 /* MOAITriggerSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOAITriggerSensor.h; sourceTree = "<group>"; };
+		41EDA137174D408F008AA2E0 /* MOAIDPadSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MOAIDPadSensor.cpp; sourceTree = "<group>"; };
+		41EDA138174D408F008AA2E0 /* MOAIDPadSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOAIDPadSensor.h; sourceTree = "<group>"; };
 		660EBB03160D184A000B1203 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Crittercism.h; path = "../../3rdparty/crittercismiOS-3.3.3/CrittercismSDK-crashonly/Crittercism.h"; sourceTree = "<group>"; };
 		660EBB06160D1859000B1203 /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrashReporter.h; path = "../../3rdparty/crittercismiOS-3.3.3/CrittercismSDK-crashonly/CrashReporter.h"; sourceTree = "<group>"; };
 		660EBB07160D1859000B1203 /* CrittercismJSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrittercismJSONKit.h; path = "../../3rdparty/crittercismiOS-3.3.3/CrittercismSDK-crashonly/CrittercismJSONKit.h"; sourceTree = "<group>"; };
@@ -8353,6 +8361,10 @@
 			isa = PBXGroup;
 			children = (
 				89BE6F1A173AD0CA00DFE837 /* headers.h */,
+				41EDA133174D4071008AA2E0 /* MOAITriggerSensor.cpp */,
+				41EDA134174D4072008AA2E0 /* MOAITriggerSensor.h */,
+				41EDA137174D408F008AA2E0 /* MOAIDPadSensor.cpp */,
+				41EDA138174D408F008AA2E0 /* MOAIDPadSensor.h */,
 				89BE6F1B173AD0CA00DFE837 /* host.cpp */,
 				89BE6F1C173AD0CA00DFE837 /* host.h */,
 				89BE6F1D173AD0CA00DFE837 /* host_particles.cpp */,
@@ -11753,6 +11765,8 @@
 				89BE7252173AD0CB00DFE837 /* MOAILineShader-vsh.h in Headers */,
 				89BE7254173AD0CB00DFE837 /* MOAIMeshShader-fsh.h in Headers */,
 				89BE7256173AD0CB00DFE837 /* MOAIMeshShader-vsh.h in Headers */,
+				41EDA136174D4072008AA2E0 /* MOAITriggerSensor.h in Headers */,
+				41EDA13A174D408F008AA2E0 /* MOAIDPadSensor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14780,6 +14794,8 @@
 				89BE7238173AD0CB00DFE837 /* MOAIViewport.cpp in Sources */,
 				89BE723C173AD0CB00DFE837 /* MOAIWheelSensor.cpp in Sources */,
 				89BE7240173AD0CB00DFE837 /* pch.cpp in Sources */,
+				41EDA135174D4072008AA2E0 /* MOAITriggerSensor.cpp in Sources */,
+				41EDA139174D408F008AA2E0 /* MOAIDPadSensor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

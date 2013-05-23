@@ -8,25 +8,54 @@ Joystick::Joystick( int id, int axesCnt, int buttonCnt ) :
 	mButtonCnt( buttonCnt ),
 	mCurrentBuffer( 0 )
 {
-	mAxes = new float[ mAxesCnt ];
+	mAxes[0] = new float[ mAxesCnt ];
+	mAxes[1] = new float[ mAxesCnt ];
 	mButtons[0] = new unsigned char[ mButtonCnt ];
 	mButtons[1] = new unsigned char[ mButtonCnt ];
 }
 
 Joystick::~Joystick() {
 	if( NULL != mButtons ) {
-		delete [] mAxes;
+		delete [] mAxes[0];
+		delete [] mAxes[1];
 		delete [] mButtons[0];
 		delete [] mButtons[1];
 	}
 }
 
-void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback buttonCallback ) {
-	glfwGetJoystickPos( mId, mAxes, mAxesCnt );
+void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback buttonCallback, JoystickDPadCallback dpadCallback ) {
+	glfwGetJoystickPos( mId, mAxes[ mCurrentBuffer ], mAxesCnt );
 	glfwGetJoystickButtons( mId, &mButtons[ mCurrentBuffer ][0], mButtonCnt );
 
 	int prevBuffer = (mCurrentBuffer == 0) ? 1 : 0;
-	for( int i = 0; i < mButtonCnt; i++ ) {
+	
+	// DPad is buttons 0-3
+	unsigned int pstate = 0;
+	unsigned int state = 0;
+
+	// UP
+	state  |= mButtons[ mCurrentBuffer][ 0 ] == 0 ? 0 : 0x1;
+	pstate |= mButtons[ prevBuffer ][ 0 ] == 0 ? 0 : 0x1;
+
+	// DOWN
+	state  |= mButtons[ mCurrentBuffer][ 1 ] == 0 ? 0 : 0x2;
+	pstate |= mButtons[ prevBuffer ][ 1 ] == 0 ? 0 : 0x2;
+
+	// LEFT
+	state  |= mButtons[ mCurrentBuffer][ 2 ] == 0 ? 0 : 0x4;
+	pstate |= mButtons[ prevBuffer ][ 2 ] == 0 ? 0 : 0x4;
+
+	// RIGHT
+	state  |= mButtons[ mCurrentBuffer][ 3 ] == 0 ? 0 : 0x8;
+	pstate |= mButtons[ prevBuffer ][ 3 ] == 0 ? 0 : 0x8;
+
+	
+	if( state != pstate )
+		if( dpadCallback )
+			dpadCallback( mId, 0, state );
+
+	// Rest of buttons
+	for( int i = 4; i < mButtonCnt; i++ ) {
 		unsigned char currButtonState = mButtons[ mCurrentBuffer][ i ];
 		if( mButtons[ prevBuffer ][ i ] != currButtonState ) {
 			if( buttonCallback )
@@ -35,14 +64,14 @@ void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback
 	}
 	// Lump into pairs of axes
 	for( int i = 0; i < mAxesCnt; i += 2 ) {
-		float x = mAxes[ i ];
-		float y = mAxes[ i + 1 ];
-		
+		float x = mAxes[ mCurrentBuffer ][ i ];
+		float y = mAxes[ mCurrentBuffer ][ i + 1 ];
+
 		// Left/right Shoulder triggers 1(off) -> -1(full)
 		if( i == 4 ) {
 			// Map to range 0 - 1
 			x = (x + 1) / 2;
-			y = (y + 1) / 2;
+			y = 1 - ((y + 1) / 2);
 			axisCallback( mId, 2, x, y );
 		}
 		// Sticks
@@ -50,10 +79,25 @@ void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback
 			float deadZone = 0.2;
 			bool isX = (x < -deadZone) || (x > deadZone);
 			bool isY = (y < -deadZone) || (y > deadZone);
-			if( (isX or isY) and axisCallback ) {
-				x = isX ? x : 0;
-				y = isY ? y : 0;
-				axisCallback( mId, i/2, x, y ); //i/2 so left stick = 0, right stick =1, triggers =2
+			if( isX or isY ) {
+				if( axisCallback ) {
+					x = isX ? x : 0;
+					y = isY ? y : 0;
+					axisCallback( mId, i/2, x, y ); //i/2 so left stick = 0, right stick =1, triggers =2
+				}
+			}
+			else {
+				float px = mAxes[ prevBuffer ][ i ];
+				float py = mAxes[ prevBuffer ][ i + 1 ];
+				bool isPX = (px < -deadZone) || (px > deadZone);
+				bool isPY = (py < -deadZone) || (py > deadZone);
+
+				// Send a callback when joystick returns to deadzone for the first time
+				if( isPX or isPY ) {
+					if( axisCallback ) {
+						axisCallback( mId, i/2, 0, 0 );
+					}					
+				}
 			}
 		}
 	}
@@ -94,7 +138,7 @@ void JoystickManager::update() {
 		j->mIsConnected = connected;
 		
 		if( j->mIsConnected )
-			j->update( mAxesCallback, mButtonCallback );
+			j->update( mAxesCallback, mButtonCallback, mDPadCallback );
 	}	
 }
 
@@ -111,6 +155,10 @@ void JoystickManager::setAxisCallback( JoystickAxisCallback callback ) {
 
 void JoystickManager::setButtonCallback( JoystickButtonCallback callback ) {
 	mButtonCallback = callback;
+}
+
+void JoystickManager::setDPadCallback( JoystickDPadCallback callback ) {
+	mDPadCallback = callback;
 }
 
 void JoystickManager::setConnectionCallback( JoystickConnectionCallback callback ) {
