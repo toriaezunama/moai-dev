@@ -90,7 +90,7 @@ void MOAIDPadSensor::RegisterLuaFuncs ( MOAILuaState& state ) {
 void MOAIDPadSensor::Reset () {
 
 	// clear out the old events
-	this->mValue = NEUTRAL;	
+	this->mValue = 0;
 }
 
 //----------------------------------------------------------------//

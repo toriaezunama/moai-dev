@@ -137,7 +137,7 @@ void MOAIInputDevice::SetSensor ( u8 sensorID, cc8* name, u32 type ) {
 			break;
 		}
 		case MOAISensor::DPAD: {
-			sensor = new MOAITriggerSensor ();
+			sensor = new MOAIDPadSensor ();
 			break;
 		}
 	}

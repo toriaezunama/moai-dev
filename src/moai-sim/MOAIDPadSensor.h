@@ -27,7 +27,7 @@ private:
 
 public:
 	enum {
-		NEUTRAL 		= 0,
+		NEUTRAL 		= 0x16,
 		UP  			= 0x1,
 		DOWN 			= 0x2,
 		LEFT 			= 0x4,

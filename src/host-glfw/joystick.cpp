@@ -49,6 +49,11 @@ void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback
 	state  |= mButtons[ mCurrentBuffer][ 3 ] == 0 ? 0 : 0x8;
 	pstate |= mButtons[ prevBuffer ][ 3 ] == 0 ? 0 : 0x8;
 
+	// Neutral
+	if( state == 0 && pstate != 0 ) {
+		state = 0x16;
+		pstate = 0; // force update
+	}
 	
 	if( state != pstate )
 		if( dpadCallback )
