@@ -47,7 +47,7 @@ int MOAIDPadSensor::_getValue ( lua_State* L ) {
 //----------------------------------------------------------------//
 void MOAIDPadSensor::HandleEvent ( ZLStream& eventStream ) {
 
-	u32 value = eventStream.Read < u32 >( NEUTRAL );
+	u32 value = eventStream.Read < u32 >( 0 );
 		
 	if ( this->mValue != value ) {
 		this->mValue = value;

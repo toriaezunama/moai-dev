@@ -1,4 +1,4 @@
-// Copyright (c) 2010-2011 Zipline Games, Inc. All Rights Reserved.
+	// Copyright (c) 2010-2011 Zipline Games, Inc. All Rights Reserved.
 // http://getmoai.com
 
 #include <stdio.h>
@@ -557,7 +557,7 @@ void joystickButtonCallback( int joyId, int buttonId, int state ){
 
 void joystickConnectionCallback( int joyId, bool connected );
 void joystickConnectionCallback( int joyId, bool connected ){
-	fprintf( stdout, "JOYSTICK0: %s", (connected ? "connected" : "disconnected") );
+	fprintf( stdout, "JOYSTICK0: %s\n", (connected ? "connected" : "disconnected") );
 	AKUSetInputDeviceActive( GlfwInputDeviceID::JOYSTICK0, connected );
 }
 
@@ -702,11 +702,12 @@ int GlfwHost ( int argc, char** argv ) {
 			// }
 			
 			_onPaint();
+
+			// Min value: 5 − 20ms. Less than this may result in glfwSleep returning immediately, without
+			// putting the thread to sleep.
+			glfwSleep( 0.01 );
 		}
 		
-		// Min value: 5 − 20ms. Less than this may result in glfwSleep returning immediately, without
-		// putting the thread to sleep.
-		// glfwSleep( double secs )
 		
 		isRunning = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
 	}

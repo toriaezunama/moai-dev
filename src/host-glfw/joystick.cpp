@@ -1,4 +1,5 @@
 #include "joystick.h"
+#include <string.h>
 
 // == Joystick ===========================================
 Joystick::Joystick( int id, int axesCnt, int buttonCnt ) : 
@@ -10,8 +11,13 @@ Joystick::Joystick( int id, int axesCnt, int buttonCnt ) :
 {
 	mAxes[0] = new float[ mAxesCnt ];
 	mAxes[1] = new float[ mAxesCnt ];
+	memset( mAxes[0], 0, sizeof( float ) * mAxesCnt );
+	memset( mAxes[1], 0, sizeof( float ) * mAxesCnt );
+
 	mButtons[0] = new unsigned char[ mButtonCnt ];
 	mButtons[1] = new unsigned char[ mButtonCnt ];
+	memset( mButtons[0], 0, sizeof( unsigned char ) * mButtonCnt );
+	memset( mButtons[1], 0, sizeof( unsigned char ) * mButtonCnt );
 }
 
 Joystick::~Joystick() {
