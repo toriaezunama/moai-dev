@@ -490,8 +490,10 @@ void joystickAxisCallback( int joyId, int axisId, float lr, float ud ) {
 			AKUEnqueueJoystickEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_STICK_RIGHT, lr, ud );
 			break;
 		case 2: // Left/right (range 0 to 1)
-			AKUEnqueueTriggerEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_TRIGGER_LEFT, lr );
-			AKUEnqueueTriggerEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_TRIGGER_RIGHT, ud );
+			if( lr != -5 )
+				AKUEnqueueTriggerEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_TRIGGER_LEFT, lr );
+			if( ud != -5 )
+				AKUEnqueueTriggerEvent( GlfwInputDeviceID::JOYSTICK0, GlfwJoystickSensorID::JOYSTICK_TRIGGER_RIGHT, ud );
 			break;
 	}
 	// JOYSTICK_ANALOG_RIGHT,

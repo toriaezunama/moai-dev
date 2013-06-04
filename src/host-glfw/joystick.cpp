@@ -1,5 +1,6 @@
 #include "joystick.h"
 #include <string.h>
+#include <math.h>
 
 // == Joystick ===========================================
 Joystick::Joystick( int id, int axesCnt, int buttonCnt ) : 
@@ -66,53 +67,60 @@ void Joystick::update( JoystickAxisCallback axisCallback, JoystickButtonCallback
 			dpadCallback( mId, 0, state );
 
 	// Rest of buttons
-	for( int i = 4; i < mButtonCnt; i++ ) {
-		unsigned char currButtonState = mButtons[ mCurrentBuffer][ i ];
-		if( mButtons[ prevBuffer ][ i ] != currButtonState ) {
-			if( buttonCallback )
+	if( buttonCallback ) {
+		for( int i = 4; i < mButtonCnt; i++ ) {
+			unsigned char currButtonState = mButtons[ mCurrentBuffer][ i ];
+			if( mButtons[ prevBuffer ][ i ] != currButtonState ) {
 				buttonCallback( mId, i, currButtonState );
+			}
 		}
 	}
+	
 	// Lump into pairs of axes
-	for( int i = 0; i < mAxesCnt; i += 2 ) {
-		float x = mAxes[ mCurrentBuffer ][ i ];
-		float y = mAxes[ mCurrentBuffer ][ i + 1 ];
+	if( axisCallback ) {
+		for( int i = 0; i < mAxesCnt; i += 2 ) {
+			
+			float x = mAxes[ mCurrentBuffer ][ i ];
+			float y = mAxes[ mCurrentBuffer ][ i + 1 ];
+			float px = mAxes[ prevBuffer ][ i ];
+			float py = mAxes[ prevBuffer ][ i + 1 ];
 
-		// Left/right Shoulder triggers 1(off) -> -1(full)
-		if( i == 4 ) {
-			// Map to range 0 - 1
-			x = (x + 1) / 2;
-			y = 1 - ((y + 1) / 2);
-			axisCallback( mId, 2, x, y );
-		}
-		// Sticks
-		else {
-			float deadZone = 0.2;
-			bool isX = (x < -deadZone) || (x > deadZone);
-			bool isY = (y < -deadZone) || (y > deadZone);
-			if( isX or isY ) {
-				if( axisCallback ) {
-					x = isX ? x : 0;
-					y = isY ? y : 0;
+			// Left/right Shoulder triggers 1(off) -> -1(full)
+			if( i == 4 ) {
+				// Map to range 0 - 1
+				x = (x + 1) / 2;
+				y = 1 - ((y + 1) / 2);
+
+				// no change
+				if( x == 0 && px == -1 )
+					x = -5.f;
+				if( y == 0 && py == 1 )
+					y = -5.f; // no change
+				
+				axisCallback( mId, 2, x, y );
+			}
+			// Sticks
+			else {
+				float deadZone = 0.2;
+				// x/y form a vector from the origin (0,0) whose length must be > deadZone in order to trigger events
+				float length = sqrt(x * x + y * y);
+				if( length >= deadZone ) {
+					float d = (length - deadZone) / (1 - deadZone); // range 0 to 1
+					
+					// Turn x/y in a unit vector that is scaled by d
+					x = (x / length) * d;
+					y = (y / length) * d;
 					axisCallback( mId, i/2, x, y ); //i/2 so left stick = 0, right stick =1, triggers =2
 				}
-			}
-			else {
-				float px = mAxes[ prevBuffer ][ i ];
-				float py = mAxes[ prevBuffer ][ i + 1 ];
-				bool isPX = (px < -deadZone) || (px > deadZone);
-				bool isPY = (py < -deadZone) || (py > deadZone);
-
-				// Send a callback when joystick returns to deadzone for the first time
-				if( isPX or isPY ) {
-					if( axisCallback ) {
+				else {  // Send a callback when joystick returns to deadzone for the first time
+					float prevLength = sqrt(px * px + py * py);
+					if( prevLength >= deadZone ) {
 						axisCallback( mId, i/2, 0, 0 );
-					}					
-				}
+					}
+				}			
 			}
 		}
 	}
-
 	mCurrentBuffer = prevBuffer;
 }
 
